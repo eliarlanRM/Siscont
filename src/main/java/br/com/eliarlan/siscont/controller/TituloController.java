@@ -22,9 +22,15 @@ public class TituloController {
     @Autowired
     private TituloRepository tituloRepository;
 
+    @GetMapping
+    public String pesquisar() {
+        return "titulo/listar";
+    }
+
     @GetMapping("/novo")
-    public String novo() {
-        return "titulo/formulario";
+    public ModelAndView novo() {
+        ModelAndView mv = new ModelAndView("titulo/formulario");
+        return mv;
     }
 
     @PostMapping
