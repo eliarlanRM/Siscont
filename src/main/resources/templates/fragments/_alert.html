@@ -1,0 +1,14 @@
+<div th:fragment="alert">
+    <div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+        <span class="glyphicon glyphicon-ok"></span>
+        <span th:text="${mensagem}"></span>
+    </div>
+    <div class="alert alert-danger" th:if="${#fields.hasErrors()}">
+        <div th:each="detailedError : ${#fields.detailedErrors()}">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <span th:text="${detailedError.message}"></span>
+        </div>
+    </div>
+
+
+</div>
