@@ -9,9 +9,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.eliarlan.siscont.model.StatusTitulo;
 import br.com.eliarlan.siscont.model.Titulo;
@@ -20,6 +22,8 @@ import br.com.eliarlan.siscont.repository.TituloRepository;
 @Controller
 @RequestMapping("/titulos")
 public class TituloController {
+
+    private static final String CADASTRO_VIEW = "titulo/formulario";
 
     @Autowired
     private TituloRepository tituloRepository;
@@ -34,21 +38,27 @@ public class TituloController {
 
     @GetMapping("/novo")
     public ModelAndView novo() {
-        ModelAndView mv = new ModelAndView("titulo/formulario");
+        ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
         mv.addObject(new Titulo());
         return mv;
     }
 
+    @GetMapping("/{id}/editar")
+    public ModelAndView edicao(@PathVariable("id") Titulo titulo) {
+        ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
+        mv.addObject(titulo);
+        return mv;
+    }
+
     @PostMapping
-    public ModelAndView salvar(@Validated Titulo titulo, Errors errors) {
-        ModelAndView mv = new ModelAndView("titulo/formulario");
+    public String salvar(@Validated Titulo titulo, Errors errors, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
-            return mv;
+            return CADASTRO_VIEW;
         }
         tituloRepository.save(titulo);
 
-        mv.addObject("mensagem", "Título salvo com sucesso!");
-        return mv;
+        attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
+        return "redirect:/titulos/novo";
     }
 
     @ModelAttribute("todosStatusTitulo")
