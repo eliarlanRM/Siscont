@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.com.eliarlan.siscont.model.Titulo;
 import br.com.eliarlan.siscont.repository.TituloRepository;
@@ -22,8 +23,11 @@ public class TituloController {
     }
 
     @PostMapping
-    public String salvar(Titulo titulo) {
+    public ModelAndView salvar(Titulo titulo) {
         tituloRepository.save(titulo);
-        return "titulo/formulario";
+        ModelAndView mv = new ModelAndView("titulo/formulario");
+        mv.addObject("mensagem", "Título salvo com sucesso!");
+        return mv;
     }
+
 }
