@@ -14,7 +14,10 @@
         <form class="form-horizontal" method="POST" action="/titulos">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1 class="panel-title">Novo título</h1>
+                    <div class="clearfix">
+                        <h1 class="panel-title siscont-titulo-panel">Novo título</h1>
+                        <a class="btn btn-link siscont-link-panel" th:href="@{/titulos}">Voltar para pesquisa</a>
+                    </div>
                 </div>
 
                 <div class="panel-body">

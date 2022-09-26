@@ -7,3 +7,13 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.siscont-titulo-panel {
+    float: left;
+    padding: 0px;
+}
+
+.siscont-link-panel {
+    float: right;
+    padding-top: 2px;
+}
