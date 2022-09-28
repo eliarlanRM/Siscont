@@ -7,6 +7,7 @@
 
 <body>
     <main>
+        <div th:include="~{fragments/_alert-success :: alert-success}"></div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="clearfix">
@@ -29,7 +30,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="titulo : ${titulos}">
-                            <td class="text-center" th:text="${titulo.id}">1</td>
+                            <td class="text-center" th:text="${titulo.id}"></td>
                             <td th:text="${titulo.descricao}"></td>
                             <td class="text-center" th:text="${{titulo.dataVencimento}}"></td>
                             <td class="text-right" th:text="|R$ ${{titulo.valor}}|"></td>
@@ -41,6 +42,12 @@
                                 <a class="btn btn-link btn-xs" th:href="@{/titulos/{id}/editar (id=${titulo.id})}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
+                                <a class="btn btn-link btn-xs" data-toggle="modal"
+                                    data-target="#confirmacaoExclusaoModal"
+                                    th:attr="data-codigo=${titulo.id}, data-descricao=${titulo.descricao}"
+                                    title="Excluir" rel="tooltip" data-placement="top">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
                             </td>
                         </tr>
                         <tr>
@@ -49,6 +56,7 @@
                     </tbody>
                 </table>
             </div>
+            <div th:include="~{fragments/_dialogoConfirmarExclusao :: dialogo-confirmar-exclusao}"></div>
         </div>
     </main>
 </body>

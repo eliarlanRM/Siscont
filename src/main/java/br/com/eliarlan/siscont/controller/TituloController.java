@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +59,15 @@ public class TituloController {
         tituloRepository.save(titulo);
 
         attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
-        return "redirect:/titulos/novo";
+        return "redirect:/titulos";
+    }
+
+    @DeleteMapping("{id}")
+    public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
+        tituloRepository.deleteById(id);
+
+        attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
+        return "redirect:/titulos";
     }
 
     @ModelAttribute("todosStatusTitulo")

@@ -1,0 +1,9 @@
+<div th:fragment="alert-success">
+    <div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+        <span class="glyphicon glyphicon-ok"></span>
+        <span th:text="${mensagem}"></span>
+    </div>
+
+
+
+</div>

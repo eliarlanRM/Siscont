@@ -8,7 +8,7 @@
 <body>
     <main>
         <form class="form-horizontal" method="POST" action="/titulos" th:object="${titulo}">
-            <div th:include="~{fragments/_alert :: alert}"></div>
+            <div th:include="~{fragments/_alert-error :: alert-error}"></div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="clearfix">
