@@ -16,5 +16,6 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal', function (event) {
 });
 
 $(function () {
+    $('.datepicker').datepicker();
     $('[rel="tooltip"]').tooltip();
 });
