@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.eliarlan.siscont.model.StatusTitulo;
 import br.com.eliarlan.siscont.model.Titulo;
-import br.com.eliarlan.siscont.repository.TituloRepository;
+import br.com.eliarlan.siscont.service.TituloService;
 
 @Controller
 @RequestMapping("/titulos")
@@ -27,11 +27,11 @@ public class TituloController {
     private static final String CADASTRO_VIEW = "titulo/formulario";
 
     @Autowired
-    private TituloRepository tituloRepository;
+    private TituloService tituloService;
 
     @GetMapping
     public ModelAndView pesquisar() {
-        List<Titulo> todosTitulos = tituloRepository.findAll();
+        List<Titulo> todosTitulos = tituloService.buscarTodos();
         ModelAndView mv = new ModelAndView("titulo/listar");
         mv.addObject("titulos", todosTitulos);
         return mv;
@@ -56,16 +56,21 @@ public class TituloController {
         if (errors.hasErrors()) {
             return CADASTRO_VIEW;
         }
-        tituloRepository.save(titulo);
 
-        attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
-        return "redirect:/titulos";
+        try {
+            tituloService.salvar(titulo);
+            attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
+            return "redirect:/titulos";
+
+        } catch (IllegalArgumentException e) {
+            errors.rejectValue("dataVencimento", null, e.getMessage());
+            return CADASTRO_VIEW;
+        }
     }
 
     @DeleteMapping("{id}")
     public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
-        tituloRepository.deleteById(id);
-
+        tituloService.excluir(id);
         attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
         return "redirect:/titulos";
     }
