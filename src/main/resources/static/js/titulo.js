@@ -18,4 +18,5 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal', function (event) {
 $(function () {
     $('.datepicker').datepicker();
     $('[rel="tooltip"]').tooltip();
+    $('.js-currency').maskMoney({ decimal: ',', thousands: '.', allowZero: true });
 });
