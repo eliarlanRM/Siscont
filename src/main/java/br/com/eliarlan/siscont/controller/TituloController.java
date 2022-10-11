@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.eliarlan.siscont.model.StatusTitulo;
 import br.com.eliarlan.siscont.model.Titulo;
+import br.com.eliarlan.siscont.repository.filter.TituloFilter;
 import br.com.eliarlan.siscont.service.TituloService;
 
 @Controller
@@ -27,29 +28,15 @@ import br.com.eliarlan.siscont.service.TituloService;
 public class TituloController {
 
     private static final String CADASTRO_VIEW = "titulo/formulario";
+    private static final String PESQUISA_VIEW = "titulo/listar";
 
     @Autowired
     private TituloService tituloService;
-
-    @GetMapping
-    public ModelAndView pesquisar() {
-        List<Titulo> todosTitulos = tituloService.buscarTodos();
-        ModelAndView mv = new ModelAndView("titulo/listar");
-        mv.addObject("titulos", todosTitulos);
-        return mv;
-    }
 
     @GetMapping("/novo")
     public ModelAndView novo() {
         ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
         mv.addObject(new Titulo());
-        return mv;
-    }
-
-    @GetMapping("/{id}/editar")
-    public ModelAndView edicao(@PathVariable("id") Titulo titulo) {
-        ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
-        mv.addObject(titulo);
         return mv;
     }
 
@@ -68,6 +55,21 @@ public class TituloController {
             errors.rejectValue("dataVencimento", null, e.getMessage());
             return CADASTRO_VIEW;
         }
+    }
+
+    @GetMapping
+    public ModelAndView pesquisar(@ModelAttribute("filtro") TituloFilter filtro) {
+        List<Titulo> todosTitulos = tituloService.filtrar(filtro);
+        ModelAndView mv = new ModelAndView(PESQUISA_VIEW);
+        mv.addObject("titulos", todosTitulos);
+        return mv;
+    }
+
+    @GetMapping("/{id}/editar")
+    public ModelAndView edicao(@PathVariable("id") Titulo titulo) {
+        ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
+        mv.addObject(titulo);
+        return mv;
     }
 
     @DeleteMapping("{id}")

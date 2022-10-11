@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.eliarlan.siscont.model.StatusTitulo;
 import br.com.eliarlan.siscont.model.Titulo;
 import br.com.eliarlan.siscont.repository.TituloRepository;
+import br.com.eliarlan.siscont.repository.filter.TituloFilter;
 
 @Service
 @Transactional
@@ -41,6 +42,11 @@ public class TituloService {
         repository.save(titulo);
 
         return StatusTitulo.RECEBIDO.getDescricao();
+    }
+
+    public List<Titulo> filtrar(TituloFilter filtro) {
+        String descricao = filtro.getDescricao() == null ? "" : filtro.getDescricao();
+        return repository.findByDescricaoContaining(descricao);
     }
 
 }
